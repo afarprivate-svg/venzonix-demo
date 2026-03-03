@@ -13,77 +13,125 @@
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
   <style>
     :root {
-      --background: oklch(0.98 0 0);
-      --foreground: oklch(0.15 0 0);
+      /* Core palette */
+      --bg: oklch(0.99 0 0);
+      --fg: oklch(0.15 0 0);
       --primary: oklch(0.30 0.12 260);
-      --primary-foreground: oklch(0.98 0 0);
-      --secondary: oklch(0.92 0.06 150);
+      --secondary: oklch(0.40 0.12 150);
       --muted: oklch(0.94 0 0);
-      --muted-foreground: oklch(0.45 0 0);
-      --border: oklch(0.88 0 0);
+      --muted-fg: oklch(0.45 0 0);
+      --glass-bg: rgba(255,255,255,0.12);
+      --glass-border: rgba(255,255,255,0.18);
       --radius: 0.75rem;
       --font-sans: Inter, Outfit, system-ui, sans-serif;
     }
-    body {
-      background: var(--background);
-      color: var(--foreground);
-      font-family: var(--font-sans);
-    }
-    .glass {
-      background: rgba(255,255,255,0.12);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255,255,255,0.18);
-      border-radius: var(--radius);
-    }
-    .glow {
-      box-shadow: 0 0 12px 2px rgba(0, 120, 255, 0.2);
-    }
-    .animate-fadein {
-      animation: fadeIn 400ms ease-out forwards;
-      opacity: 0;
-    }
+    body { background: var(--bg); color: var(--fg); font-family: var(--font-sans); }
+    .glass { background: var(--glass-bg); backdrop-filter: blur(12px); border: 1px solid var(--glass-border); border-radius: var(--radius); }
+    .glow { box-shadow: 0 0 12px 2px rgba(0,120,255,0.2); }
+    /* Animations */
+    .fade-in { animation: fadeIn 500ms cubic-bezier(0.4,0,0.2,1) forwards; opacity: 0; }
+    .slide-up { animation: slideUp 500ms cubic-bezier(0.4,0,0.2,1) forwards; transform: translateY(30px); opacity: 0; }
     @keyframes fadeIn { to { opacity: 1; } }
-    .animate-slideup {
-      animation: slideUp 350ms ease-out forwards;
-      transform: translateY(30px);
-      opacity: 0;
-    }
     @keyframes slideUp { to { transform: translateY(0); opacity: 1; } }
+    .card-hover:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+    .read-more { position: relative; display: inline-flex; align-items: center; font-weight: 600; color: var(--primary); transition: color 200ms; }
+    .read-more:hover { color: var(--secondary); }
+    .read-more::after { content: '→'; margin-left: 4px; transition: transform 200ms; }
+    .read-more:hover::after { transform: translateX(4px); }
   </style>
 </head>
-<body class="min-h-screen flex flex-col items-center justify-center p-6">
-  <header class="mb-12 text-center animate-fadein">
-    <h1 class="text-5xl font-bold text-primary mb-4">Venzonix Growth Engine</h1>
-    <p class="text-xl text-muted-foreground">AI‑powered content & automation for SaaS startups & small businesses.</p>
-    <div class="mt-6 flex gap-4 justify-center">
-      <a href="#" class="px-6 py-3 bg-primary text-primary-foreground rounded-md hover:bg-primary-foreground hover:text-primary transition">Get Started</a>
-      <a href="#" class="px-6 py-3 border border-primary text-primary rounded-md hover:bg-primary hover:text-primary-foreground transition">Learn More</a>
+<body class="min-h-screen flex flex-col items-center">
+  <!-- Hero -->
+  <section class="w-full bg-cover bg-center" style="background-image:url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1200');">
+    <div class="bg-black/40 w-full h-full flex flex-col items-center justify-center py-32">
+      <h1 class="text-5xl md:text-6xl font-bold text-primary mb-4 fade-in">Venzonix Growth Engine</h1>
+      <p class="text-xl md:text-2xl text-muted-fg mb-6 fade-in" style="animation-delay:150ms;">AI‑driven content & automation for SaaS startups & small businesses.</p>
+      <div class="flex gap-4 fade-in" style="animation-delay:300ms;">
+        <a href="#" class="px-8 py-3 bg-primary text-white rounded-md hover:bg-primary-foreground hover:text-primary transition">Get Started</a>
+        <a href="#features" class="px-8 py-3 border border-primary text-primary rounded-md hover:bg-primary hover:text-white transition">Learn More</a>
+      </div>
     </div>
-  </header>
+  </section>
 
-  <section class="grid md:grid-cols-3 gap-6 max-w-5xl w-full animate-slideup">
-    <div class="glass p-6 glow">
+  <!-- Features -->
+  <section id="features" class="max-w-6xl w-full px-4 py-16 grid md:grid-cols-3 gap-8 slide-up" style="animation-delay:0ms;">
+    <div class="glass p-6 glow card-hover">
       <i data-lucide="bolt" class="w-12 h-12 text-primary mb-4"></i>
       <h3 class="text-2xl font-semibold mb-2">Instant Content Creation</h3>
-      <p class="text-muted-foreground">Generate high‑quality blog posts, newsletters and landing copy in seconds.</p>
+      <p class="text-muted-fg">Generate high‑quality copy for blogs, newsletters and landing pages in seconds.</p>
     </div>
-    <div class="glass p-6 glow">
+    <div class="glass p-6 glow card-hover">
       <i data-lucide="workflow" class="w-12 h-12 text-primary mb-4"></i>
       <h3 class="text-2xl font-semibold mb-2">Automated Workflows</h3>
-      <p class="text-muted-foreground">Connect your favorite SaaS tools and let AI orchestrate daily tasks.</p>
+      <p class="text-muted-fg">Connect your SaaS stack and let AI orchestrate daily tasks without friction.</p>
     </div>
-    <div class="glass p-6 glow">
+    <div class="glass p-6 glow card-hover">
       <i data-lucide="chart-line" class="w-12 h-12 text-primary mb-4"></i>
       <h3 class="text-2xl font-semibold mb-2">Growth Analytics</h3>
-      <p class="text-muted-foreground">Realtime insights and AI‑driven recommendations to boost revenue.</p>
+      <p class="text-muted-fg">Realtime insights & AI‑driven recommendations to accelerate revenue.</p>
     </div>
   </section>
 
-  <section class="mt-12 max-w-4xl w-full animate-fadein">
-    <img src="https://placehold.co/800x400?text=Venzonix+Dashboard" alt="Dashboard preview" class="w-full rounded-lg glass" />
+  <!-- Team / Hero secondary image -->
+  <section class="w-full py-16 bg-cover bg-center" style="background-image:url('https://images.unsplash.com/photo-1551434678-e076c223a692?w=1200');">
+    <div class="bg-black/30 w-full h-full flex flex-col items-center justify-center py-20">
+      <h2 class="text-4xl font-bold text-primary mb-4 fade-in" style="animation-delay:200ms;">Built for SaaS Teams</h2>
+      <p class="text-lg text-muted-fg max-w-2xl text-center fade-in" style="animation-delay:400ms;">Our engine blends AI creativity with robust automation, giving you the freedom to focus on growth.</p>
+    </div>
   </section>
 
-  <footer class="mt-16 text-center text-sm text-muted-foreground animate-fadein">
+  <!-- Blog Section -->
+  <section class="max-w-6xl w-full px-4 py-16">
+    <h2 class="text-4xl font-bold text-primary mb-8 fade-in" style="animation-delay:0ms;">From the Lab</h2>
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <!-- Card 1 -->
+      <div class="glass overflow-hidden card-hover">
+        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600" alt="Penguins" class="w-full h-48 object-cover" />
+        <div class="p-4">
+          <span class="inline-block bg-primary text-white text-xs px-2 py-1 rounded mb-2">Leadership • 4 min read</span>
+          <h3 class="text-xl font-semibold mb-2">What Penguins Teach Us About Team Collaboration</h3>
+          <p class="text-muted-fg mb-4">Penguin colonies coordinate movement with precision, mirroring how SaaS teams must align on product roadmaps. Their cooperative hunting strategies reveal the power of shared goals. This natural teamwork translates into higher velocity for development cycles.</p>
+          <a href="#" class="read-more">Read More</a>
+        </div>
+        <div class="text-xs text-muted-fg px-4 pb-2">Posted on 2026‑03‑04</div>
+      </div>
+      <!-- Card 2 -->
+      <div class="glass overflow-hidden card-hover">
+        <img src="https://images.unsplash.com/photo-1551986782-d0169b3f8fa7?w=600" alt="Penguins in huddle" class="w-full h-48 object-cover" />
+        <div class="p-4">
+          <span class="inline-block bg-primary text-white text-xs px-2 py-1 rounded mb-2">Strategy • 3 min read</span>
+          <h3 class="text-xl font-semibold mb-2">The Emperor Penguin's Guide to Surviving a Market Downturn</h3>
+          <p class="text-muted-fg mb-4">Emperor penguins huddle tightly to conserve warmth, a survival tactic akin to businesses consolidating resources during downturns. Their coordinated rotations keep the group energized, teaching resilience and adaptive planning for SaaS founders.</p>
+          <a href="#" class="read-more">Read More</a>
+        </div>
+        <div class="text-xs text-muted-fg px-4 pb-2">Posted on 2026‑03‑04</div>
+      </div>
+      <!-- Card 3 -->
+      <div class="glass overflow-hidden card-hover">
+        <img src="https://placehold.co/600x400/0a0a2e/6366f1?text=Penguin+Post" alt="Penguin Post" class="w-full h-48 object-cover" />
+        <div class="p-4">
+          <span class="inline-block bg-primary text-white text-xs px-2 py-1 rounded mb-2">Productivity • 5 min read</span>
+          <h3 class="text-xl font-semibold mb-2">Why Penguins Never Miss a Deadline</h3>
+          <p class="text-muted-fg mb-4">Penguin migration follows exact timing, mirroring disciplined project management. Their innate navigation systems provide a model for setting clear milestones and adhering to delivery schedules in SaaS product cycles.</p>
+          <a href="#" class="read-more">Read More</a>
+        </div>
+        <div class="text-xs text-muted-fg px-4 pb-2">Posted on 2026‑03‑04</div>
+      </div>
+      <!-- Card 4 -->
+      <div class="glass overflow-hidden card-hover">
+        <img src="https://placehold.co/600x400/0a0a2e/a855f7?text=Antarctic+Insights" alt="Antarctic Insights" class="w-full h-48 object-cover" />
+        <div class="p-4">
+          <span class="inline-block bg-primary text-white text-xs px-2 py-1 rounded mb-2">Growth • 6 min read</span>
+          <h3 class="text-xl font-semibold mb-2">From Antarctica to SaaS: Lessons in Extreme Adaptability</h3>
+          <p class="text-muted-fg mb-4">Penguins thrive in harsh climates by quickly adapting to ice changes, a parallel to startups pivoting under market pressure. Their flexible foraging tactics illustrate how rapid iteration fuels sustainable growth.</p>
+          <a href="#" class="read-more">Read More</a>
+        </div>
+        <div class="text-xs text-muted-fg px-4 pb-2">Posted on 2026‑03‑04</div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="w-full py-6 bg-muted-fg text-center text-sm text-white">
     © 2026 Venzonix. All rights reserved.
   </footer>
 
